@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/static/js/main.1639d0d8.js",
-    "index.html": "/index.html",
-    "main.1639d0d8.js.map": "/static/js/main.1639d0d8.js.map"
+    "main.js": "/tenzies/static/js/main.1639d0d8.js",
+    "index.html": "/tenzies/index.html",
+    "main.1639d0d8.js.map": "/tenzies/static/js/main.1639d0d8.js.map"
   },
   "entrypoints": [
     "static/js/main.1639d0d8.js"
