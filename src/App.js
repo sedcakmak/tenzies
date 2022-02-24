@@ -113,7 +113,7 @@ export default function App() {
     <main>
       {tenzies && <Confetti />}
       <div className="instructions-container" style={hideInstruction}>
-        <h1 className="title">Tenzies Testing</h1>
+        <h1 className="title">Tenzies</h1>
 
         <p className="instructions">
           Roll until all dice are the same. Click each die to freeze it at its
