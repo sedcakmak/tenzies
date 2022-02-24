@@ -6,25 +6,30 @@ import Confetti from "react-confetti"
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice())
   const [tenzies, setTenzies] = React.useState(false)
-  const [count, setCount] = React.useState(0)
-  const [timer, setTimer] = React.useState(0)
+  const [numberOfRolls, setNumberOfRolls] = React.useState(0)
   const [timerIsActive, setTimerIsActive] = React.useState(true)
-  const countRef = React.useRef(null)
-  const [finalTime, setFinalTime] = React.useState(0)
+  const [timer, setTimer] = React.useState(0)
+  const timerRef = React.useRef(null)
   const [bestTime, setBestTime] = React.useState("")
   const [hideInfo, setHideInfo] = React.useState(false)
 
   React.useEffect(() => {
-    if (finalTime < bestTime) {
-      localStorage.setItem("bestTime", finalTime.toString())
-    } else {
-      localStorage.setItem("bestTime", timer.toString())
+    if (tenzies) {
+      if (bestTime) {
+        const best = Number(bestTime)
+        if (timer < best) {
+          localStorage.setItem("bestTime", timer.toString())
+          setBestTime(timer)
+        } else {
+          const best = localStorage.getItem("bestTime")
+          best && setBestTime(best)
+        }
+      } else {
+        localStorage.setItem("bestTime", timer.toString())
+        setBestTime(timer)
+      }
     }
-  }, [finalTime])
-
-  React.useEffect(() => {
-    setFinalTime(timer)
-  }, [timerIsActive])
+  }, [tenzies])
 
   React.useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld)
@@ -55,21 +60,21 @@ export default function App() {
 
   React.useEffect(() => {
     if (timerIsActive) {
-      countRef.current = setInterval(() => {
+      timerRef.current = setInterval(() => {
         setTimer((timer) => timer + 1)
       }, 1000)
     } else {
-      clearInterval(countRef.current)
+      clearInterval(timerRef.current)
     }
   }, [timerIsActive])
 
   function countRolls() {
     if (!tenzies) {
-      setCount((prevCount) => {
+      setNumberOfRolls((prevCount) => {
         return prevCount + 1
       })
     } else {
-      setCount(0)
+      setNumberOfRolls(0)
     }
   }
 
@@ -125,11 +130,12 @@ export default function App() {
         {tenzies ? "New Game" : "Roll"}
       </button>
       <h3>Timer: {timer} seconds</h3>
-      <h3>Your best score is: {localStorage.getItem("bestTime")} seconds</h3>
-      <h3>Your final score is: {finalTime} seconds</h3>
+
+      <h3>{bestTime ? `Your best score is: ${bestTime} seconds` : ""}</h3>
+
       {tenzies && (
         <p>
-          You won after rolling the dice <span>{count}</span> times!
+          You won after rolling the dice <span>{numberOfRolls}</span> times!
         </p>
       )}
     </main>
